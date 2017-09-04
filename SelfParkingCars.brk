@@ -1,0 +1,14 @@
+<BREAKS>
+  <BP>
+    <UnitName>SelfParkingCars.c</UnitName>
+    <Line>291</Line>
+    <Enabled>True</Enabled>
+    <Type>0</Type>
+  </BP>
+  <BP>
+    <UnitName>SelfParkingCars.c</UnitName>
+    <Line>292</Line>
+    <Enabled>True</Enabled>
+    <Type>0</Type>
+  </BP>
+</BREAKS>
