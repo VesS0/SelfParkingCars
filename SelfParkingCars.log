@@ -8,12 +8,12 @@ diagnostics: 0	123	Compiled Successfully	Tests.c
 diagnostics: 1	122	Compilation Started	Tests.c
 hint: 0	1004	interrupt handler (FrontSensorEcho at 0x001A)	Sensors.c
 hint: 0	1004	interrupt handler (BackSensorEcho at 0x0019)	Sensors.c
-diagnostics: 146	123	Compiled Successfully	Sensors.c
-diagnostics: 0	127	All files Compiled in 250 ms	 
+diagnostics: 153	123	Compiled Successfully	Sensors.c
+diagnostics: 0	127	All files Compiled in 203 ms	 
 hint: 0	1144	Used RX: 16 (100%)   Free RX: 0 (0%)	Used RX: 16 (100%)   Free RX: 0 (0%)
 hint: 0	1144	Static RAM (bytes): 98   Dynamic RAM (bytes): 130969	Static RAM (bytes): 98   Dynamic RAM (bytes): 130969
-hint: 0	1144	Used ROM (bytes): 6520 (1%)  Free ROM (bytes): 1042056 (99%)	Used ROM (bytes): 6520 (1%)  Free ROM (bytes): 1042056 (99%)
+hint: 0	1144	Used ROM (bytes): 6512 (1%)  Free ROM (bytes): 1042064 (99%)	Used ROM (bytes): 6512 (1%)  Free ROM (bytes): 1042064 (99%)
 diagnostics: 0	125	Project Linked Successfully	SelfParkingCars.mcpar
-diagnostics: 0	128	Linked in 610 ms	 
-diagnostics: 0	129	Project 'SelfParkingCars.mcpar' completed: 1094 ms	 
-diagnostics: 0	103	Finished successfully: 09 Sep 2017, 20:36:23	SelfParkingCars.mcpar
+diagnostics: 0	128	Linked in 547 ms	 
+diagnostics: 0	129	Project 'SelfParkingCars.mcpar' completed: 968 ms	 
+diagnostics: 0	103	Finished successfully: 09 Sep 2017, 21:16:46	SelfParkingCars.mcpar

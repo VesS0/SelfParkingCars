@@ -2543,7 +2543,6 @@ b6
 b7
 b8
 b9
-backdistance
 backsensorecho
 bberr
 bberr
@@ -22793,7 +22792,6 @@ frnum8_otg_hs_hfnum_bit
 frnum9
 frnum9_bit
 frnum9_otg_hs_hfnum_bit
-frontdistance
 frontsensorecho
 fs
 fs
@@ -39420,6 +39418,8 @@ revision2
 revision2_bit
 revision3
 revision3_bit
+rez
+rez2
 rfaec
 rfaec0
 rfaec0_bit

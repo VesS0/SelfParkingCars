@@ -3,8 +3,8 @@
 
 #define LEFT_WHEEL 0
 #define RIGHT_WHEEL 1
-#define BACK_SENSOR 2
-#define FRONT_SENSOR 3
+#define FRONT_SENSOR 2
+#define BACK_SENSOR 3
 
 #define FORWARD_SPIN 1
 #define BACKWARD_SPIN 0

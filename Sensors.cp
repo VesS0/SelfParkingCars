@@ -83,17 +83,17 @@ void TriggerBackSensorMeasurement()
 
 void InitBackServoPWM_Timer10_CH1_PB8()
 {
- pwmPeriod[ 2 ] = PWM_TIM10_Init( 50 );
- pwmDuty[ 2 ] = sensorPositions[0];
- ChangeDuty[ 2 ](pwmDuty[ 2 ]);
+ pwmPeriod[ 3 ] = PWM_TIM10_Init( 50 );
+ pwmDuty[ 3 ] = sensorPositions[0];
+ ChangeDuty[ 3 ](pwmDuty[ 3 ]);
  PWM_TIM10_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM10_CH1_PB8);
 }
 
 void InitFrontServoPWM_Timer11_CH1_PB9()
 {
- pwmPeriod[ 3 ] = PWM_TIM11_Init( 50 );
- pwmDuty[ 3 ] = sensorPositions[0];
- ChangeDuty[ 3 ](pwmDuty[ 3 ]);
+ pwmPeriod[ 2 ] = PWM_TIM11_Init( 50 );
+ pwmDuty[ 2 ] = sensorPositions[0];
+ ChangeDuty[ 2 ](pwmDuty[ 2 ]);
  PWM_TIM11_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM11_CH1_PB9);
 }
 
@@ -142,19 +142,20 @@ double GetResultsInCM(unsigned long distance)
 {
  return distance/580.0;
 }
- double frontDistance, backDistance ;
+ double rez, rez2 ;
 
  double GetFrontSensorDistance()
  {
- return frontDistance;
+ return rez2;
  }
  double GetBackSensorDistance()
  {
- return backDistance;
+ return rez;
  }
 
 void FrontSensorEcho() iv IVT_INT_EXTI4 ics ICS_AUTO {
  EXTI_PR.B4 = 1;
+ ODR15_GPIOE_ODR_bit = 0;
  if(IDR4_GPIOC_IDR_bit == 1)
  {
  TIM2_CR1.CEN = 1;
@@ -165,13 +166,18 @@ void FrontSensorEcho() iv IVT_INT_EXTI4 ics ICS_AUTO {
  TIM2_CR1.CEN = 0;
  merenje = TIM2_CNT;
  TIM2_CNT = 0;
- frontDistance = GetResultsInCM(merenje);
-#line 125 "C:/Users/Jelena/Desktop/SelfParkingCars/Sensors.c"
+ if (merenje >= 4000)
+ {
+ ODR15_GPIOE_ODR_bit = 0;
+ }
+ rez2 = GetResultsInCM(merenje);
+#line 131 "C:/Users/Jelena/Desktop/SelfParkingCars/Sensors.c"
  }
 }
 
 void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
  EXTI_PR.B3 = 1;
+ ODR15_GPIOE_ODR_bit = 0;
  if(IDR3_GPIOC_IDR_bit == 1)
  {
  TIM2_CR1.CEN = 1;
@@ -182,7 +188,7 @@ void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
  TIM2_CR1.CEN = 0;
  merenjee = TIM2_CNT;
  TIM2_CNT = 0;
- backDistance = GetResultsInCM(merenje);
-#line 145 "C:/Users/Jelena/Desktop/SelfParkingCars/Sensors.c"
+ rez = GetResultsInCM(merenjee);
+#line 152 "C:/Users/Jelena/Desktop/SelfParkingCars/Sensors.c"
  }
 }

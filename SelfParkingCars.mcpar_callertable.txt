@@ -1,9 +1,6 @@
 main
 	__CC2DW
 	__FillZeros
-	GPIO_Digital_Output
-		GPIO_Config
-			GPIO_Clk_Enable
 	InitializeSensors
 		NVIC_IntEnable
 		Timer
@@ -16,6 +13,7 @@ main
 					GPIO_Alternate_Function_Enable
 						GPIO_Config_Pin_Alternate_Function
 							GPIO_Config
+								GPIO_Clk_Enable
 			PWM_TIM4_Set_Duty_Wrapper
 				PWM_TIM4_Set_Duty
 					PWM_TIMx_Set_Duty
@@ -50,6 +48,7 @@ main
 			PWM_TIM10_Set_Duty_Wrapper
 			PWM_TIM11_Set_Duty_Wrapper
 		GPIO_Digital_Output
+			GPIO_Config
 		GPIO_Digital_Input
 			GPIO_Config
 	AlignRightSensors
@@ -93,7 +92,6 @@ main
 		InitExternIntRisingEdge_PC1_PC2
 			NVIC_IntEnable
 			GPIO_Digital_Input
-			GPIO_Digital_Output
 	DriveWhileParkingNotSpotted
 		TriggerFrontSensorMeasurement
 		TriggerBackSensorMeasurement

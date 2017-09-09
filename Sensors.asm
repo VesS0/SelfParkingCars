@@ -74,7 +74,7 @@ _RotateFrontSensorFront:
 ;Sensors.c,4 :: 		void RotateFrontSensorFront()
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;Sensors.c,6 :: 		ChangeDuty[FRONT_SENSOR](sensorPositions[12]);
+;Sensors.c,6 :: 		ChangeDuty[BACK_SENSOR](sensorPositions[12]);
 MOVW	R0, #6510
 MOVW	R4, #lo_addr(Sensors_ChangeDuty+12)
 MOVT	R4, #hi_addr(Sensors_ChangeDuty+12)
@@ -90,13 +90,13 @@ _AlignRightSensors:
 ;Sensors.c,9 :: 		void AlignRightSensors()
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;Sensors.c,11 :: 		ChangeDuty[BACK_SENSOR](sensorPositions[10]);
+;Sensors.c,11 :: 		ChangeDuty[FRONT_SENSOR](sensorPositions[10]);
 MOVW	R0, #5859
 MOVW	R4, #lo_addr(Sensors_ChangeDuty+8)
 MOVT	R4, #hi_addr(Sensors_ChangeDuty+8)
 LDR	R4, [R4, #0]
 BLX	R4
-;Sensors.c,12 :: 		ChangeDuty[FRONT_SENSOR](sensorPositions[2]);
+;Sensors.c,12 :: 		ChangeDuty[BACK_SENSOR](sensorPositions[2]);
 MOVW	R0, #3255
 MOVW	R4, #lo_addr(Sensors_ChangeDuty+12)
 MOVT	R4, #hi_addr(Sensors_ChangeDuty+12)
@@ -199,20 +199,20 @@ STR	LR, [SP, #0]
 ;Sensors.c,38 :: 		pwmPeriod[BACK_SENSOR] =  PWM_TIM10_Init(INITIAL_SENSOR_FREQUENCY);
 MOVS	R0, #50
 BL	_PWM_TIM10_Init+0
-MOVW	R1, #lo_addr(Sensors_pwmPeriod+4)
-MOVT	R1, #hi_addr(Sensors_pwmPeriod+4)
+MOVW	R1, #lo_addr(Sensors_pwmPeriod+6)
+MOVT	R1, #hi_addr(Sensors_pwmPeriod+6)
 STRH	R0, [R1, #0]
 ;Sensors.c,39 :: 		pwmDuty[BACK_SENSOR] = sensorPositions[0];
 MOVW	R1, #2604
 SXTH	R1, R1
-MOVW	R0, #lo_addr(Sensors_pwmDuty+4)
-MOVT	R0, #hi_addr(Sensors_pwmDuty+4)
+MOVW	R0, #lo_addr(Sensors_pwmDuty+6)
+MOVT	R0, #hi_addr(Sensors_pwmDuty+6)
 STRH	R1, [R0, #0]
 ;Sensors.c,40 :: 		ChangeDuty[BACK_SENSOR](pwmDuty[BACK_SENSOR]);
 MOVW	R4, #2604
 UXTH	R0, R4
-MOVW	R4, #lo_addr(Sensors_ChangeDuty+8)
-MOVT	R4, #hi_addr(Sensors_ChangeDuty+8)
+MOVW	R4, #lo_addr(Sensors_ChangeDuty+12)
+MOVT	R4, #hi_addr(Sensors_ChangeDuty+12)
 LDR	R4, [R4, #0]
 BLX	R4
 ;Sensors.c,41 :: 		PWM_TIM10_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM10_CH1_PB8);
@@ -233,20 +233,20 @@ STR	LR, [SP, #0]
 ;Sensors.c,46 :: 		pwmPeriod[FRONT_SENSOR]  = PWM_TIM11_Init(INITIAL_SENSOR_FREQUENCY);
 MOVS	R0, #50
 BL	_PWM_TIM11_Init+0
-MOVW	R1, #lo_addr(Sensors_pwmPeriod+6)
-MOVT	R1, #hi_addr(Sensors_pwmPeriod+6)
+MOVW	R1, #lo_addr(Sensors_pwmPeriod+4)
+MOVT	R1, #hi_addr(Sensors_pwmPeriod+4)
 STRH	R0, [R1, #0]
 ;Sensors.c,47 :: 		pwmDuty[FRONT_SENSOR] = sensorPositions[0];
 MOVW	R1, #2604
 SXTH	R1, R1
-MOVW	R0, #lo_addr(Sensors_pwmDuty+6)
-MOVT	R0, #hi_addr(Sensors_pwmDuty+6)
+MOVW	R0, #lo_addr(Sensors_pwmDuty+4)
+MOVT	R0, #hi_addr(Sensors_pwmDuty+4)
 STRH	R1, [R0, #0]
 ;Sensors.c,48 :: 		ChangeDuty[FRONT_SENSOR](pwmDuty[FRONT_SENSOR]);  // 1ms = 6484 2 ms =   12 973
 MOVW	R4, #2604
 UXTH	R0, R4
-MOVW	R4, #lo_addr(Sensors_ChangeDuty+12)
-MOVT	R4, #hi_addr(Sensors_ChangeDuty+12)
+MOVW	R4, #lo_addr(Sensors_ChangeDuty+8)
+MOVT	R4, #hi_addr(Sensors_ChangeDuty+8)
 LDR	R4, [R4, #0]
 BLX	R4
 ;Sensors.c,49 :: 		PWM_TIM11_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM11_CH1_PB9);
@@ -398,9 +398,9 @@ BX	LR
 _GetFrontSensorDistance:
 ;Sensors.c,99 :: 		double GetFrontSensorDistance()
 SUB	SP, SP, #4
-;Sensors.c,101 :: 		return frontDistance;
-MOVW	R0, #lo_addr(_frontDistance+0)
-MOVT	R0, #hi_addr(_frontDistance+0)
+;Sensors.c,101 :: 		return rez2;
+MOVW	R0, #lo_addr(_rez2+0)
+MOVT	R0, #hi_addr(_rez2+0)
 VLDR	#1, S0, [R0, #0]
 ;Sensors.c,102 :: 		}
 L_end_GetFrontSensorDistance:
@@ -410,9 +410,9 @@ BX	LR
 _GetBackSensorDistance:
 ;Sensors.c,103 :: 		double GetBackSensorDistance()
 SUB	SP, SP, #4
-;Sensors.c,105 :: 		return backDistance;
-MOVW	R0, #lo_addr(_backDistance+0)
-MOVT	R0, #hi_addr(_backDistance+0)
+;Sensors.c,105 :: 		return rez;
+MOVW	R0, #lo_addr(_rez+0)
+MOVT	R0, #hi_addr(_rez+0)
 VLDR	#1, S0, [R0, #0]
 ;Sensors.c,106 :: 		}
 L_end_GetBackSensorDistance:
@@ -429,122 +429,148 @@ SXTB	R1, R1
 MOVW	R0, #lo_addr(EXTI_PR+0)
 MOVT	R0, #hi_addr(EXTI_PR+0)
 STR	R1, [R0, #0]
-;Sensors.c,110 :: 		if(IDR4_GPIOC_IDR_bit == 1)
+;Sensors.c,110 :: 		ODR15_GPIOE_ODR_bit = 0;
+MOVS	R1, #0
+SXTB	R1, R1
+MOVW	R0, #lo_addr(ODR15_GPIOE_ODR_bit+0)
+MOVT	R0, #hi_addr(ODR15_GPIOE_ODR_bit+0)
+STR	R1, [R0, #0]
+;Sensors.c,111 :: 		if(IDR4_GPIOC_IDR_bit == 1)
 MOVW	R1, #lo_addr(IDR4_GPIOC_IDR_bit+0)
 MOVT	R1, #hi_addr(IDR4_GPIOC_IDR_bit+0)
 LDR	R0, [R1, #0]
 CMP	R0, #0
 IT	EQ
 BEQ	L_FrontSensorEcho8
-;Sensors.c,112 :: 		TIM2_CR1.CEN = 1;
+;Sensors.c,113 :: 		TIM2_CR1.CEN = 1;
 MOVS	R1, #1
 SXTB	R1, R1
 MOVW	R0, #lo_addr(TIM2_CR1+0)
 MOVT	R0, #hi_addr(TIM2_CR1+0)
 STR	R1, [R0, #0]
-;Sensors.c,113 :: 		};
+;Sensors.c,114 :: 		};
 L_FrontSensorEcho8:
-;Sensors.c,115 :: 		if(IDR4_GPIOC_IDR_bit == 0)
+;Sensors.c,116 :: 		if(IDR4_GPIOC_IDR_bit == 0)
 MOVW	R1, #lo_addr(IDR4_GPIOC_IDR_bit+0)
 MOVT	R1, #hi_addr(IDR4_GPIOC_IDR_bit+0)
 LDR	R0, [R1, #0]
 CMP	R0, #0
 IT	NE
 BNE	L_FrontSensorEcho9
-;Sensors.c,117 :: 		TIM2_CR1.CEN = 0;
+;Sensors.c,118 :: 		TIM2_CR1.CEN = 0;
 MOVS	R1, #0
 SXTB	R1, R1
 MOVW	R0, #lo_addr(TIM2_CR1+0)
 MOVT	R0, #hi_addr(TIM2_CR1+0)
 STR	R1, [R0, #0]
-;Sensors.c,118 :: 		merenje = TIM2_CNT;
+;Sensors.c,119 :: 		merenje = TIM2_CNT;
 MOVW	R0, #lo_addr(TIM2_CNT+0)
 MOVT	R0, #hi_addr(TIM2_CNT+0)
 LDR	R0, [R0, #0]
 MOVW	R2, #lo_addr(_merenje+0)
 MOVT	R2, #hi_addr(_merenje+0)
 STR	R0, [R2, #0]
-;Sensors.c,119 :: 		TIM2_CNT = 0;
+;Sensors.c,120 :: 		TIM2_CNT = 0;
 MOVS	R1, #0
 MOVW	R0, #lo_addr(TIM2_CNT+0)
 MOVT	R0, #hi_addr(TIM2_CNT+0)
 STR	R1, [R0, #0]
-;Sensors.c,120 :: 		frontDistance = GetResultsInCM(merenje);
+;Sensors.c,121 :: 		if (merenje >= 4000)
 MOV	R0, R2
 LDR	R0, [R0, #0]
+CMP	R0, #4000
+IT	CC
+BCC	L_FrontSensorEcho10
+;Sensors.c,123 :: 		ODR15_GPIOE_ODR_bit = 0;
+MOVS	R1, #0
+SXTB	R1, R1
+MOVW	R0, #lo_addr(ODR15_GPIOE_ODR_bit+0)
+MOVT	R0, #hi_addr(ODR15_GPIOE_ODR_bit+0)
+STR	R1, [R0, #0]
+;Sensors.c,124 :: 		}
+L_FrontSensorEcho10:
+;Sensors.c,125 :: 		rez2 = GetResultsInCM(merenje);
+MOVW	R0, #lo_addr(_merenje+0)
+MOVT	R0, #hi_addr(_merenje+0)
+LDR	R0, [R0, #0]
 BL	_GetResultsInCM+0
-MOVW	R0, #lo_addr(_frontDistance+0)
-MOVT	R0, #hi_addr(_frontDistance+0)
+MOVW	R0, #lo_addr(_rez2+0)
+MOVT	R0, #hi_addr(_rez2+0)
 VSTR	#1, S0, [R0, #0]
-;Sensors.c,125 :: 		}
+;Sensors.c,131 :: 		}
 L_FrontSensorEcho9:
-;Sensors.c,126 :: 		}
+;Sensors.c,132 :: 		}
 L_end_FrontSensorEcho:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
 ; end of _FrontSensorEcho
 _BackSensorEcho:
-;Sensors.c,128 :: 		void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
+;Sensors.c,134 :: 		void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;Sensors.c,129 :: 		EXTI_PR.B3 = 1;                     // clear flag
+;Sensors.c,135 :: 		EXTI_PR.B3 = 1;                     // clear flag
 MOVS	R1, #1
 SXTB	R1, R1
 MOVW	R0, #lo_addr(EXTI_PR+0)
 MOVT	R0, #hi_addr(EXTI_PR+0)
 STR	R1, [R0, #0]
-;Sensors.c,130 :: 		if(IDR3_GPIOC_IDR_bit == 1)
+;Sensors.c,136 :: 		ODR15_GPIOE_ODR_bit = 0;
+MOVS	R1, #0
+SXTB	R1, R1
+MOVW	R0, #lo_addr(ODR15_GPIOE_ODR_bit+0)
+MOVT	R0, #hi_addr(ODR15_GPIOE_ODR_bit+0)
+STR	R1, [R0, #0]
+;Sensors.c,137 :: 		if(IDR3_GPIOC_IDR_bit == 1)
 MOVW	R1, #lo_addr(IDR3_GPIOC_IDR_bit+0)
 MOVT	R1, #hi_addr(IDR3_GPIOC_IDR_bit+0)
 LDR	R0, [R1, #0]
 CMP	R0, #0
 IT	EQ
-BEQ	L_BackSensorEcho10
-;Sensors.c,132 :: 		TIM2_CR1.CEN = 1;
+BEQ	L_BackSensorEcho11
+;Sensors.c,139 :: 		TIM2_CR1.CEN = 1;
 MOVS	R1, #1
 SXTB	R1, R1
 MOVW	R0, #lo_addr(TIM2_CR1+0)
 MOVT	R0, #hi_addr(TIM2_CR1+0)
 STR	R1, [R0, #0]
-;Sensors.c,133 :: 		};
-L_BackSensorEcho10:
-;Sensors.c,135 :: 		if(IDR3_GPIOC_IDR_bit == 0)
+;Sensors.c,140 :: 		};
+L_BackSensorEcho11:
+;Sensors.c,142 :: 		if(IDR3_GPIOC_IDR_bit == 0)
 MOVW	R1, #lo_addr(IDR3_GPIOC_IDR_bit+0)
 MOVT	R1, #hi_addr(IDR3_GPIOC_IDR_bit+0)
 LDR	R0, [R1, #0]
 CMP	R0, #0
 IT	NE
-BNE	L_BackSensorEcho11
-;Sensors.c,137 :: 		TIM2_CR1.CEN = 0;
+BNE	L_BackSensorEcho12
+;Sensors.c,144 :: 		TIM2_CR1.CEN = 0;
 MOVS	R1, #0
 SXTB	R1, R1
 MOVW	R0, #lo_addr(TIM2_CR1+0)
 MOVT	R0, #hi_addr(TIM2_CR1+0)
 STR	R1, [R0, #0]
-;Sensors.c,138 :: 		merenjee = TIM2_CNT;
+;Sensors.c,145 :: 		merenjee = TIM2_CNT;
 MOVW	R0, #lo_addr(TIM2_CNT+0)
 MOVT	R0, #hi_addr(TIM2_CNT+0)
-LDR	R1, [R0, #0]
-MOVW	R0, #lo_addr(_merenjee+0)
-MOVT	R0, #hi_addr(_merenjee+0)
-STR	R1, [R0, #0]
-;Sensors.c,139 :: 		TIM2_CNT = 0;
+LDR	R0, [R0, #0]
+MOVW	R2, #lo_addr(_merenjee+0)
+MOVT	R2, #hi_addr(_merenjee+0)
+STR	R0, [R2, #0]
+;Sensors.c,146 :: 		TIM2_CNT = 0;
 MOVS	R1, #0
 MOVW	R0, #lo_addr(TIM2_CNT+0)
 MOVT	R0, #hi_addr(TIM2_CNT+0)
 STR	R1, [R0, #0]
-;Sensors.c,140 :: 		backDistance = GetResultsInCM(merenje);
-MOVW	R0, #lo_addr(_merenje+0)
-MOVT	R0, #hi_addr(_merenje+0)
+;Sensors.c,147 :: 		rez = GetResultsInCM(merenjee);
+MOV	R0, R2
 LDR	R0, [R0, #0]
 BL	_GetResultsInCM+0
-MOVW	R0, #lo_addr(_backDistance+0)
-MOVT	R0, #hi_addr(_backDistance+0)
+MOVW	R0, #lo_addr(_rez+0)
+MOVT	R0, #hi_addr(_rez+0)
 VSTR	#1, S0, [R0, #0]
-;Sensors.c,145 :: 		}
-L_BackSensorEcho11:
-;Sensors.c,146 :: 		}
+;Sensors.c,152 :: 		}
+L_BackSensorEcho12:
+;Sensors.c,153 :: 		}
 L_end_BackSensorEcho:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4

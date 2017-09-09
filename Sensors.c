@@ -3,13 +3,13 @@
 
  void RotateFrontSensorFront()
  {
-      ChangeDuty[FRONT_SENSOR](sensorPositions[12]);
+      ChangeDuty[BACK_SENSOR](sensorPositions[12]);
  }
  
  void AlignRightSensors()
  {
-       ChangeDuty[BACK_SENSOR](sensorPositions[10]);
-       ChangeDuty[FRONT_SENSOR](sensorPositions[2]);
+       ChangeDuty[FRONT_SENSOR](sensorPositions[10]);
+       ChangeDuty[BACK_SENSOR](sensorPositions[2]);
  }
 void TriggerFrontSensorMeasurement()
 {
@@ -94,19 +94,20 @@ double GetResultsInCM(unsigned long distance)
 {
        return distance/580.0;
 }
- double frontDistance, backDistance ;
+ double rez, rez2 ;
  
  double GetFrontSensorDistance()
  {
-        return frontDistance;
+        return rez2;
  }
  double GetBackSensorDistance()
  {
-        return backDistance;
+        return rez;
  }
 
 void FrontSensorEcho() iv IVT_INT_EXTI4 ics ICS_AUTO {
   EXTI_PR.B4 = 1;                     // clear flag
+    ODR15_GPIOE_ODR_bit = 0;
   if(IDR4_GPIOC_IDR_bit == 1)
   {
         TIM2_CR1.CEN = 1;
@@ -117,16 +118,22 @@ void FrontSensorEcho() iv IVT_INT_EXTI4 ics ICS_AUTO {
       TIM2_CR1.CEN = 0;
       merenje = TIM2_CNT;
       TIM2_CNT = 0;
-      frontDistance = GetResultsInCM(merenje);
+      if (merenje >= 4000)
+      {
+         ODR15_GPIOE_ODR_bit = 0;
+      }
+      rez2 = GetResultsInCM(merenje);
        /*sprintf(buf,"%lf",rez);
        UART3_Write_Text(buf);
        UART3_Write(13);
        UART3_Write(10); */
+
   }
 }
 
 void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
   EXTI_PR.B3 = 1;                     // clear flag
+    ODR15_GPIOE_ODR_bit = 0;
   if(IDR3_GPIOC_IDR_bit == 1)
   {
         TIM2_CR1.CEN = 1;
@@ -137,7 +144,7 @@ void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
       TIM2_CR1.CEN = 0;
       merenjee = TIM2_CNT;
       TIM2_CNT = 0;
-      backDistance = GetResultsInCM(merenje);
+      rez = GetResultsInCM(merenjee);
        /*sprintf(buf,"Prednji: %3.4lf Zadnji: %3.4lf",rez, rez2);
        UART3_Write_Text(buf);
        UART3_Write(13);

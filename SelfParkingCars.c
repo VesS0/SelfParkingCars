@@ -15,7 +15,7 @@ void InitExternIntRisingEdge_PC1_PC2()
 {
      GPIO_Digital_Input(&GPIOC_BASE, _GPIO_PINMASK_1);
      GPIO_Digital_Input(&GPIOC_BASE, _GPIO_PINMASK_2);
-     GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_12);
+     // GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_12);
      SYSCFGEN_bit = 1;
      SYSCFG_EXTICR1 |= LEFT_WHEEL_EXT_INT_CR1_PC1 | RIGHT_WHEEL_EXT_INT_CR1_PC2;
      EXTI_RTSR |= RISING_TRIGGER_PC1 | RISING_TRIGGER_PC2;
@@ -171,17 +171,16 @@ void StartWheels()
 
 void DriveWhileParkingNotSpotted()
 {
-     ODR15_GPIOE_ODR_bit = 1;
      TriggerFrontSensorMeasurement();
      TriggerBackSensorMeasurement();
       
-      while(GetFrontSensorDistance() - GetBackSensorDistance() < 15)
+      while((GetFrontSensorDistance() - GetBackSensorDistance()) < 15)
       {
+            if (GetBackSensorDistance() -  GetFrontSensorDistance() > 15) break;
             TriggerFrontSensorMeasurement();
             TriggerBackSensorMeasurement();
       }
-      ODR15_GPIOE_ODR_bit = 0;
-      Delay_ms(400);
+       Delay_ms(700);
       StopWheels();
 }
 
@@ -207,12 +206,12 @@ void DriveUntillWall()
      TriggerFrontSensorMeasurement();
      StartWheels();
 
-     ODR15_GPIOE_ODR_bit = 1;
+     // ODR15_GPIOE_ODR_bit = 1;
      while (GetFrontSensorDistance() > 4.0)
      {
            TriggerFrontSensorMeasurement();
      }
-     ODR15_GPIOE_ODR_bit = 0;
+     // ODR15_GPIOE_ODR_bit = 0;
      StopWheels();
 }
 
@@ -224,8 +223,9 @@ void DriveUntillWall()
  }
 
 void main() {
-      GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_15); // Led
-      ODR15_GPIOE_ODR_bit = 0;
+      // GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_15); // Led
+      // ODR15_GPIOE_ODR_bit = 0;
+      //Delay_ms(3000);
       InitializeSensors();
       AlignRightSensors();
       Delay_ms(3000);

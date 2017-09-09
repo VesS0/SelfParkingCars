@@ -63,7 +63,7 @@ void InitExternIntRisingEdge_PC1_PC2()
 {
  GPIO_Digital_Input(&GPIOC_BASE, _GPIO_PINMASK_1);
  GPIO_Digital_Input(&GPIOC_BASE, _GPIO_PINMASK_2);
- GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_12);
+
  SYSCFGEN_bit = 1;
  SYSCFG_EXTICR1 |=  0x00000020  |  0x00000200 ;
  EXTI_RTSR |=  0x00000002  |  0x00000004 ;
@@ -184,8 +184,8 @@ void ServoPositionTest()
 {
  while(1)
  {
- ChangeDuty[ 3 ](sensorPositions[ServoPosition]);
  ChangeDuty[ 2 ](sensorPositions[ServoPosition]);
+ ChangeDuty[ 3 ](sensorPositions[ServoPosition]);
  Delay_ms(500);
  ServoPosition=(ServoPosition+1)%15;
  }
@@ -219,17 +219,16 @@ void StartWheels()
 
 void DriveWhileParkingNotSpotted()
 {
- ODR15_GPIOE_ODR_bit = 1;
  TriggerFrontSensorMeasurement();
  TriggerBackSensorMeasurement();
 
- while(GetFrontSensorDistance() - GetBackSensorDistance() < 15)
+ while((GetFrontSensorDistance() - GetBackSensorDistance()) < 15)
  {
+ if (GetBackSensorDistance() - GetFrontSensorDistance() > 15) break;
  TriggerFrontSensorMeasurement();
  TriggerBackSensorMeasurement();
  }
- ODR15_GPIOE_ODR_bit = 0;
- Delay_ms(400);
+ Delay_ms(700);
  StopWheels();
 }
 
@@ -255,12 +254,12 @@ void DriveUntillWall()
  TriggerFrontSensorMeasurement();
  StartWheels();
 
- ODR15_GPIOE_ODR_bit = 1;
+
  while (GetFrontSensorDistance() > 4.0)
  {
  TriggerFrontSensorMeasurement();
  }
- ODR15_GPIOE_ODR_bit = 0;
+
  StopWheels();
 }
 
@@ -272,8 +271,9 @@ void DriveUntillWall()
  }
 
 void main() {
- GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_15);
- ODR15_GPIOE_ODR_bit = 0;
+
+
+
  InitializeSensors();
  AlignRightSensors();
  Delay_ms(3000);
