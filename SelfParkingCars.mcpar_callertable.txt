@@ -1,51 +1,79 @@
 main
+	NVIC_IntEnable
 	__CC2DW
 	__FillZeros
-	ExternInterruptTest
+	GPIO_Digital_Output
+		GPIO_Config
+			GPIO_Clk_Enable
+	GPIO_Digital_Input
+		GPIO_Config
+	InitExternIntRisingEdge_PC1_PC2
+		NVIC_IntEnable
 		GPIO_Digital_Input
-			GPIO_Config
-				GPIO_Clk_Enable
-		InitExternIntRisingEdge_PC1_PC2
-			NVIC_IntEnable
-	WheelsSpeedAndDirectionTest
-		InitLeftWheelPWM_Timer4_CH1_PB6
-			GPIO_Digital_Output
-				GPIO_Config
-			PWM_TIM4_Init
-				PWM_TIMx_Init
-					Get_Fosc_kHz
-			PWM_TIM4_Start
-				PWM_TIMx_Start
-					GPIO_Alternate_Function_Enable
-						GPIO_Config_Pin_Alternate_Function
-							GPIO_Config
-			PWM_TIM4_Set_Duty_Wrapper
-				PWM_TIM4_Set_Duty
-					PWM_TIMx_Set_Duty
-			PWM_TIM9_Set_Duty_Wrapper
-				PWM_TIM9_Set_Duty
-					PWM_TIMx_Set_Duty
-			PWM_TIM10_Set_Duty_Wrapper
-				PWM_TIM10_Set_Duty
-					PWM_TIMx_Set_Duty
-			PWM_TIM11_Set_Duty_Wrapper
-				PWM_TIM11_Set_Duty
-					PWM_TIMx_Set_Duty
-		InitRightWheelPWM_Timer9_CH1_PE5
-			GPIO_Digital_Output
-			PWM_TIM9_Init
-				PWM_TIMx_Init
-			PWM_TIM9_Start
-				PWM_TIMx_Start
-			PWM_TIM4_Set_Duty_Wrapper
-			PWM_TIM9_Set_Duty_Wrapper
-			PWM_TIM10_Set_Duty_Wrapper
-			PWM_TIM11_Set_Duty_Wrapper
-LeftWheel_Interrupt
-	UpdateCurrentDuty
+		GPIO_Digital_Output
+	InitLeftWheelPWM_Timer4_CH1_PB6
+		GPIO_Digital_Output
+		PWM_TIM4_Init
+			PWM_TIMx_Init
+				Get_Fosc_kHz
+		PWM_TIM4_Start
+			PWM_TIMx_Start
+				GPIO_Alternate_Function_Enable
+					GPIO_Config_Pin_Alternate_Function
+						GPIO_Config
+		PWM_TIM4_Set_Duty_Wrapper
+			PWM_TIM4_Set_Duty
+				PWM_TIMx_Set_Duty
+		PWM_TIM9_Set_Duty_Wrapper
+			PWM_TIM9_Set_Duty
+				PWM_TIMx_Set_Duty
+		PWM_TIM10_Set_Duty_Wrapper
+			PWM_TIM10_Set_Duty
+				PWM_TIMx_Set_Duty
+		PWM_TIM11_Set_Duty_Wrapper
+			PWM_TIM11_Set_Duty
+				PWM_TIMx_Set_Duty
+	InitRightWheelPWM_Timer9_CH1_PE5
+		GPIO_Digital_Output
+		PWM_TIM9_Init
+			PWM_TIMx_Init
+		PWM_TIM9_Start
+			PWM_TIMx_Start
 		PWM_TIM4_Set_Duty_Wrapper
 		PWM_TIM9_Set_Duty_Wrapper
 		PWM_TIM10_Set_Duty_Wrapper
 		PWM_TIM11_Set_Duty_Wrapper
+	Timer
+	AightSensors
+		InitFrontServoPWM_Timer11_CH1_PB9
+			PWM_TIM11_Init
+				PWM_TIMx_Init
+			PWM_TIM11_Start
+				PWM_TIMx_Start
+			PWM_TIM4_Set_Duty_Wrapper
+			PWM_TIM9_Set_Duty_Wrapper
+			PWM_TIM10_Set_Duty_Wrapper
+			PWM_TIM11_Set_Duty_Wrapper
+		InitBackServoPWM_Timer10_CH1_PB8
+			PWM_TIM10_Init
+				PWM_TIMx_Init
+			PWM_TIM10_Start
+				PWM_TIMx_Start
+			PWM_TIM4_Set_Duty_Wrapper
+			PWM_TIM9_Set_Duty_Wrapper
+			PWM_TIM10_Set_Duty_Wrapper
+			PWM_TIM11_Set_Duty_Wrapper
+		PWM_TIM4_Set_Duty_Wrapper
+		PWM_TIM9_Set_Duty_Wrapper
+		PWM_TIM10_Set_Duty_Wrapper
+		PWM_TIM11_Set_Duty_Wrapper
+ExtInt4
+	GetResultsInCM
+ExtInt3
+	GetResultsInCM
 RightWheel_Interrupt
-	UpdateCurrentDuty
+LeftWheel_Interrupt
+	PWM_TIM4_Set_Duty_Wrapper
+	PWM_TIM9_Set_Duty_Wrapper
+	PWM_TIM10_Set_Duty_Wrapper
+	PWM_TIM11_Set_Duty_Wrapper
