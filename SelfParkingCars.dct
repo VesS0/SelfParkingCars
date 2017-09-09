@@ -935,7 +935,6 @@ addset3_fsmc_bwtr1_bit
 addset3_fsmc_bwtr2_bit
 addset3_fsmc_bwtr3_bit
 addset3_fsmc_bwtr4_bit
-adjustwheelspwm
 adon
 adon
 adon
@@ -1800,7 +1799,6 @@ ahbidl
 ahbidl
 ahbidl_bit
 ahbidl_otg_hs_grstctl_bit
-aightsensors
 ais
 ais
 ais_bit
@@ -1826,6 +1824,7 @@ align
 align_adc2_cr2_bit
 align_adc3_cr2_bit
 align_bit
+alignrightsensors
 alrae
 alrae
 alrae_bit
@@ -2544,6 +2543,8 @@ b6
 b7
 b8
 b9
+backdistance
+backsensorecho
 bberr
 bberr
 bberr
@@ -7050,7 +7051,6 @@ cgonak
 cgonak
 cgonak_bit
 cgonak_otg_hs_dctl_bit
-changeduty
 chdis
 chdis
 chdis
@@ -12723,6 +12723,8 @@ dr9_spi3_dr_bit
 drdy
 drdy
 drdy_bit
+driveuntillwall
+drivewhileparkingnotspotted
 dsl
 dsl0
 dsl0_bit
@@ -14413,8 +14415,6 @@ exti92
 exti92_bit
 exti93
 exti93_bit
-extint3
-extint4
 extmod
 extmod
 extmod
@@ -14599,7 +14599,6 @@ fact9
 fact9
 fact9_bit
 fact9_can1_fa1r_bit
-faza2
 fb
 fb
 fb_bit
@@ -22794,6 +22793,8 @@ frnum8_otg_hs_hfnum_bit
 frnum9
 frnum9_bit
 frnum9_otg_hs_hfnum_bit
+frontdistance
+frontsensorecho
 fs
 fs
 fs
@@ -23235,6 +23236,8 @@ gencall_bit
 gencall_i2c1_sr2_bit
 gencall_i2c2_sr2_bit
 get_fosc_khz
+getbacksensordistance
+getfrontsensordistance
 getresultsincm
 ginakeff
 ginakeff
@@ -26386,6 +26389,8 @@ initf
 initf
 initf_bit
 initfrontservopwm_timer11_ch1_pb9
+initializesensors
+initializewheels
 initleftwheelpwm_timer4_ch1_pb6
 initrightwheelpwm_timer9_ch1_pe5
 inits
@@ -28684,6 +28689,7 @@ lecie
 lecie_bit
 lecie_can1_ier_bit
 leftwheel_interrupt
+leftwheelstopped
 leu
 leu0
 leu0_bit
@@ -37403,7 +37409,6 @@ poprgdne
 poprgdne
 poprgdne_bit
 poprgdne_otg_hs_dctl_bit
-poravnaj
 porrstf
 porrstf
 porrstf_bit
@@ -39036,12 +39041,10 @@ pwm_tim1_start
 pwm_tim1_stop
 pwm_tim10_init
 pwm_tim10_set_duty
-pwm_tim10_set_duty_wrapper
 pwm_tim10_start
 pwm_tim10_stop
 pwm_tim11_init
 pwm_tim11_set_duty
-pwm_tim11_set_duty_wrapper
 pwm_tim11_start
 pwm_tim11_stop
 pwm_tim12_init
@@ -39066,7 +39069,6 @@ pwm_tim3_start
 pwm_tim3_stop
 pwm_tim4_init
 pwm_tim4_set_duty
-pwm_tim4_set_duty_wrapper
 pwm_tim4_start
 pwm_tim4_stop
 pwm_tim5_init
@@ -39079,11 +39081,8 @@ pwm_tim8_start
 pwm_tim8_stop
 pwm_tim9_init
 pwm_tim9_set_duty
-pwm_tim9_set_duty_wrapper
 pwm_tim9_start
 pwm_tim9_stop
-pwmduty
-pwmperiod
 pwr_cr
 pwr_crbits
 pwr_csr
@@ -39141,7 +39140,6 @@ ra_bit
 ram
 ram
 ram_bit
-ratio
 rbuie
 rbuie
 rbuie_bit
@@ -39422,8 +39420,6 @@ revision2
 revision2_bit
 revision3
 revision3_bit
-rez
-rez2
 rfaec
 rfaec0
 rfaec0_bit
@@ -39659,6 +39655,7 @@ rie
 rie
 rie_bit
 rightwheel_interrupt
+rightwheelstopped
 rl
 rl0
 rl0_bit
@@ -39788,6 +39785,8 @@ ror_ethernet_mmc_mmccr_bit
 ros
 ros
 ros_bit
+rotatefor90right
+rotatefrontsensorfront
 rpd
 rpd0
 rpd0_bit
@@ -42241,6 +42240,8 @@ start
 start_bit
 start_i2c1_cr1_bit
 start_i2c2_cr1_bit
+startcounting
+startwheels
 stbiterr
 stbiterr
 stbiterr_bit
@@ -42250,8 +42251,6 @@ stbiterrc_bit
 stbiterrie
 stbiterrie
 stbiterrie_bit
-stepsleft
-stepsright
 stid
 stid
 stid
@@ -42493,6 +42492,7 @@ stopf
 stopf_bit
 stopf_i2c1_sr1_bit
 stopf_i2c2_sr1_bit
+stopwheels
 stpns
 stpns
 stpns_bit
@@ -44755,6 +44755,8 @@ trdt2_otg_hs_gusbcfg_bit
 trdt3
 trdt3_bit
 trdt3_otg_hs_gusbcfg_bit
+triggerbacksensormeasurement
+triggerfrontsensormeasurement
 trise
 trise
 trise
@@ -46678,7 +46680,6 @@ wfr
 wfr
 wfr_bit
 wheeldirection
-wheelinterruptcount
 wheelsspeedanddirectiontest
 wheelsspeedtest
 widbus
