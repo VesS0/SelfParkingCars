@@ -273,6 +273,7 @@ void DriveUntillWall()
 
 void main() {
  GPIO_Digital_Output(&GPIOE_BASE, _GPIO_PINMASK_15);
+ ODR15_GPIOE_ODR_bit = 0;
  InitializeSensors();
  AlignRightSensors();
  Delay_ms(3000);
@@ -284,5 +285,5 @@ void main() {
  RotateFor90Right();
 
  while(1);
-#line 252 "C:/Users/Jelena/Desktop/SelfParkingCars/SelfParkingCars.c"
+#line 253 "C:/Users/Jelena/Desktop/SelfParkingCars/SelfParkingCars.c"
 }

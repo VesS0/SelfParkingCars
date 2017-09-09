@@ -969,11 +969,17 @@ MOVW	R1, #32768
 MOVW	R0, #lo_addr(GPIOE_BASE+0)
 MOVT	R0, #hi_addr(GPIOE_BASE+0)
 BL	_GPIO_Digital_Output+0
-;SelfParkingCars.c,228 :: 		InitializeSensors();
+;SelfParkingCars.c,228 :: 		ODR15_GPIOE_ODR_bit = 0;
+MOVS	R1, #0
+SXTB	R1, R1
+MOVW	R0, #lo_addr(ODR15_GPIOE_ODR_bit+0)
+MOVT	R0, #hi_addr(ODR15_GPIOE_ODR_bit+0)
+STR	R1, [R0, #0]
+;SelfParkingCars.c,229 :: 		InitializeSensors();
 BL	_InitializeSensors+0
-;SelfParkingCars.c,229 :: 		AlignRightSensors();
+;SelfParkingCars.c,230 :: 		AlignRightSensors();
 BL	_AlignRightSensors+0
-;SelfParkingCars.c,230 :: 		Delay_ms(3000);
+;SelfParkingCars.c,231 :: 		Delay_ms(3000);
 MOVW	R7, #3582
 MOVT	R7, #1831
 NOP
@@ -984,23 +990,23 @@ BNE	L_main42
 NOP
 NOP
 NOP
-;SelfParkingCars.c,231 :: 		InitializeWheels();
+;SelfParkingCars.c,232 :: 		InitializeWheels();
 BL	_InitializeWheels+0
-;SelfParkingCars.c,232 :: 		DriveWhileParkingNotSpotted();
+;SelfParkingCars.c,233 :: 		DriveWhileParkingNotSpotted();
 BL	_DriveWhileParkingNotSpotted+0
-;SelfParkingCars.c,233 :: 		RotateFor90Right();
+;SelfParkingCars.c,234 :: 		RotateFor90Right();
 BL	_RotateFor90Right+0
-;SelfParkingCars.c,234 :: 		RotateFrontSensorFront();
+;SelfParkingCars.c,235 :: 		RotateFrontSensorFront();
 BL	_RotateFrontSensorFront+0
-;SelfParkingCars.c,235 :: 		DriveUntillWall();
+;SelfParkingCars.c,236 :: 		DriveUntillWall();
 BL	_DriveUntillWall+0
-;SelfParkingCars.c,236 :: 		RotateFor90Right();
+;SelfParkingCars.c,237 :: 		RotateFor90Right();
 BL	_RotateFor90Right+0
-;SelfParkingCars.c,238 :: 		while(1);
+;SelfParkingCars.c,239 :: 		while(1);
 L_main44:
 IT	AL
 BAL	L_main44
-;SelfParkingCars.c,252 :: 		}
+;SelfParkingCars.c,253 :: 		}
 L_end_main:
 L__main_end_loop:
 B	L__main_end_loop
