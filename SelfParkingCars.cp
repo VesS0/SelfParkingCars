@@ -108,7 +108,7 @@ void InitLeftWheelPWM_Timer4_CH1_PB6()
  SpinDirectionLeftWheel =  1 ;
 
  pwmPeriod[ 0 ] = PWM_TIM4_Init(50000) ;
- pwmDuty[ 0 ] = pwmPeriod[ 0 ]-700;
+ pwmDuty[ 0 ] = pwmPeriod[ 0 ]- 650;
  ChangeDuty[ 0 ](pwmDuty[ 0 ]);
  PWM_TIM4_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM4_CH1_PB6);
 }
@@ -119,7 +119,7 @@ void InitRightWheelPWM_Timer9_CH1_PE5()
  SpinDirectionRightWheel =  1 ;
 
  pwmPeriod[ 1 ] = PWM_TIM9_Init(25000);
- pwmDuty[ 1 ] = pwmPeriod[ 1 ]-1400;
+ pwmDuty[ 1 ] = pwmPeriod[ 1 ] - 1300;
  ChangeDuty[ 1 ](pwmDuty[ 1 ]);
  PWM_TIM9_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM9_CH1_PE5);
 }
@@ -224,11 +224,17 @@ void DriveWhileParkingNotSpotted()
 
  while((GetFrontSensorDistance() - GetBackSensorDistance()) < 15)
  {
- if (GetBackSensorDistance() - GetFrontSensorDistance() > 15) break;
+
  TriggerFrontSensorMeasurement();
  TriggerBackSensorMeasurement();
  }
- Delay_ms(700);
+ leftWheelStopped = 0;
+ rightWheelStopped = 0;
+ wheelInterruptCount[0]=60;
+ wheelInterruptCount[1]=60;
+ startCounting = 1;
+ StartWheels();
+ while (leftWheelStopped == 0 || rightWheelStopped == 0);
  StopWheels();
 }
 
@@ -238,12 +244,14 @@ void RotateFor90Right()
  rightWheelStopped = 0;
  SpinDirectionLeftWheel =  0 ;
  SpinDirectionRightWheel =  1 ;
- wheelInterruptCount[0]=65;
- wheelInterruptCount[1]=65;
+ wheelInterruptCount[0]=52;
+ wheelInterruptCount[1]=52;
  startCounting = 1;
  StartWheels();
  while (leftWheelStopped == 0 || rightWheelStopped == 0);
 }
+
+
 
 void DriveUntillWall()
 {
@@ -255,7 +263,7 @@ void DriveUntillWall()
  StartWheels();
 
 
- while (GetFrontSensorDistance() > 4.0)
+ while (GetFrontSensorDistance() > 8)
  {
  TriggerFrontSensorMeasurement();
  }
@@ -276,7 +284,7 @@ void main() {
 
  InitializeSensors();
  AlignRightSensors();
- Delay_ms(3000);
+ Delay_ms(4000);
  InitializeWheels();
  DriveWhileParkingNotSpotted();
  RotateFor90Right();
@@ -285,5 +293,5 @@ void main() {
  RotateFor90Right();
 
  while(1);
-#line 253 "C:/Users/Jelena/Desktop/SelfParkingCars/SelfParkingCars.c"
+#line 261 "C:/Users/Jelena/Desktop/SelfParkingCars/SelfParkingCars.c"
 }

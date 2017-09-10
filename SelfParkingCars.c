@@ -60,7 +60,7 @@ void InitLeftWheelPWM_Timer4_CH1_PB6()
      SpinDirectionLeftWheel = FORWARD_SPIN;    // Default forward spin
 
      pwmPeriod[LEFT_WHEEL] =  PWM_TIM4_Init(50000) ; // Work on frequency 20-35 Khz
-     pwmDuty[LEFT_WHEEL] = pwmPeriod[LEFT_WHEEL]-700; // -750;// - 1000 ;
+     pwmDuty[LEFT_WHEEL] = pwmPeriod[LEFT_WHEEL]- 650; //-700; // -750;// - 1000 ;
      ChangeDuty[LEFT_WHEEL](pwmDuty[LEFT_WHEEL]);
      PWM_TIM4_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM4_CH1_PB6);
 }
@@ -71,7 +71,7 @@ void InitRightWheelPWM_Timer9_CH1_PE5()
      SpinDirectionRightWheel = FORWARD_SPIN;    // Default forward spin
 
      pwmPeriod[RIGHT_WHEEL] =  PWM_TIM9_Init(25000);
-     pwmDuty[RIGHT_WHEEL] = pwmPeriod[RIGHT_WHEEL]-1400;//-1500;//-1650;//      27.44 us from 39.88 us (slow)
+     pwmDuty[RIGHT_WHEEL] = pwmPeriod[RIGHT_WHEEL] - 1300;//-1400;//-1500;//-1650;//      27.44 us from 39.88 us (slow)
      ChangeDuty[RIGHT_WHEEL](pwmDuty[RIGHT_WHEEL]);
      PWM_TIM9_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM9_CH1_PE5);
 }
@@ -176,12 +176,18 @@ void DriveWhileParkingNotSpotted()
       
       while((GetFrontSensorDistance() - GetBackSensorDistance()) < 15)
       {
-            if (GetBackSensorDistance() -  GetFrontSensorDistance() > 15) break;
+           // if (GetBackSensorDistance() -  GetFrontSensorDistance() > 15) break;
             TriggerFrontSensorMeasurement();
             TriggerBackSensorMeasurement();
       }
-       Delay_ms(700);
-      StopWheels();
+     leftWheelStopped = 0;
+     rightWheelStopped = 0;
+     wheelInterruptCount[0]=60;
+     wheelInterruptCount[1]=60;
+     startCounting = 1;
+     StartWheels();
+     while (leftWheelStopped == 0 || rightWheelStopped == 0);
+     StopWheels();
 }
 
 void RotateFor90Right()
@@ -190,12 +196,14 @@ void RotateFor90Right()
      rightWheelStopped = 0;
      SpinDirectionLeftWheel = BACKWARD_SPIN;
      SpinDirectionRightWheel = FORWARD_SPIN;
-     wheelInterruptCount[0]=65;
-     wheelInterruptCount[1]=65;
+     wheelInterruptCount[0]=52; // 63
+     wheelInterruptCount[1]=52; // 63
      startCounting = 1;
      StartWheels();
      while (leftWheelStopped == 0 || rightWheelStopped == 0);
 }
+
+    // http://www.ebay.com/itm/1-5A-Mini-Dual-Channel-DC-Motor-Driver-Module-Beyond-L298N-PWM-Speed-control-BDA-/162480666540?epid=779958695&hash=item25d49a37ac:g:s7kAAOSwSypY9r2g
 
 void DriveUntillWall()
 {
@@ -207,7 +215,7 @@ void DriveUntillWall()
      StartWheels();
 
      // ODR15_GPIOE_ODR_bit = 1;
-     while (GetFrontSensorDistance() > 4.0)
+     while (GetFrontSensorDistance() > 8)
      {
            TriggerFrontSensorMeasurement();
      }
@@ -228,7 +236,7 @@ void main() {
       //Delay_ms(3000);
       InitializeSensors();
       AlignRightSensors();
-      Delay_ms(3000);
+      Delay_ms(4000);
       InitializeWheels();
       DriveWhileParkingNotSpotted();
       RotateFor90Right();

@@ -257,8 +257,8 @@ BL	_PWM_TIM4_Init+0
 MOVW	R1, #lo_addr(SelfParkingCars_pwmPeriod+0)
 MOVT	R1, #hi_addr(SelfParkingCars_pwmPeriod+0)
 STRH	R0, [R1, #0]
-;SelfParkingCars.c,63 :: 		pwmDuty[LEFT_WHEEL] = pwmPeriod[LEFT_WHEEL]-700; // -750;// - 1000 ;
-SUB	R1, R0, #700
+;SelfParkingCars.c,63 :: 		pwmDuty[LEFT_WHEEL] = pwmPeriod[LEFT_WHEEL]- 650; //-700; // -750;// - 1000 ;
+SUBW	R1, R0, #650
 MOVW	R0, #lo_addr(SelfParkingCars_pwmDuty+0)
 MOVT	R0, #hi_addr(SelfParkingCars_pwmDuty+0)
 STRH	R1, [R0, #0]
@@ -301,8 +301,8 @@ BL	_PWM_TIM9_Init+0
 MOVW	R1, #lo_addr(SelfParkingCars_pwmPeriod+2)
 MOVT	R1, #hi_addr(SelfParkingCars_pwmPeriod+2)
 STRH	R0, [R1, #0]
-;SelfParkingCars.c,74 :: 		pwmDuty[RIGHT_WHEEL] = pwmPeriod[RIGHT_WHEEL]-1400;//-1500;//-1650;//      27.44 us from 39.88 us (slow)
-SUB	R1, R0, #1400
+;SelfParkingCars.c,74 :: 		pwmDuty[RIGHT_WHEEL] = pwmPeriod[RIGHT_WHEEL] - 1300;//-1400;//-1500;//-1650;//      27.44 us from 39.88 us (slow)
+SUBW	R1, R0, #1300
 MOVW	R0, #lo_addr(SelfParkingCars_pwmDuty+2)
 MOVT	R0, #hi_addr(SelfParkingCars_pwmDuty+2)
 STRH	R1, [R0, #0]
@@ -446,9 +446,9 @@ MOVT	R1, #hi_addr(_selectedWheel+0)
 LDRSH	R0, [R1, #0]
 CMP	R0, #0
 MOVW	R0, #0
-BNE	L__WheelsSpeedAndDirectionTest61
+BNE	L__WheelsSpeedAndDirectionTest65
 MOVS	R0, #1
-L__WheelsSpeedAndDirectionTest61:
+L__WheelsSpeedAndDirectionTest65:
 UXTB	R0, R0
 STRH	R0, [R1, #0]
 ;SelfParkingCars.c,112 :: 		}
@@ -461,9 +461,9 @@ MOVT	R1, #hi_addr(_wheelDirection+0)
 LDRSH	R0, [R1, #0]
 CMP	R0, #0
 MOVW	R0, #0
-BNE	L__WheelsSpeedAndDirectionTest62
+BNE	L__WheelsSpeedAndDirectionTest66
 MOVS	R0, #1
-L__WheelsSpeedAndDirectionTest62:
+L__WheelsSpeedAndDirectionTest66:
 UXTB	R0, R0
 STRH	R0, [R1, #0]
 ;SelfParkingCars.c,117 :: 		}
@@ -757,20 +757,6 @@ VCMPE.F32	S1, S0
 VMRS	#60, FPSCR
 IT	GE
 BGE	L_DriveWhileParkingNotSpotted31
-;SelfParkingCars.c,179 :: 		if (GetBackSensorDistance() -  GetFrontSensorDistance() > 15) break;
-BL	_GetBackSensorDistance+0
-VSTR	#1, S0, [SP, #4]
-BL	_GetFrontSensorDistance+0
-VLDR	#1, S1, [SP, #4]
-VSUB.F32	S1, S1, S0
-VMOV.F32	S0, #15
-VCMPE.F32	S1, S0
-VMRS	#60, FPSCR
-IT	LE
-BLE	L_DriveWhileParkingNotSpotted32
-IT	AL
-BAL	L_DriveWhileParkingNotSpotted31
-L_DriveWhileParkingNotSpotted32:
 ;SelfParkingCars.c,180 :: 		TriggerFrontSensorMeasurement();
 BL	_TriggerFrontSensorMeasurement+0
 ;SelfParkingCars.c,181 :: 		TriggerBackSensorMeasurement();
@@ -779,208 +765,250 @@ BL	_TriggerBackSensorMeasurement+0
 IT	AL
 BAL	L_DriveWhileParkingNotSpotted30
 L_DriveWhileParkingNotSpotted31:
-;SelfParkingCars.c,183 :: 		Delay_ms(700);
-MOVW	R7, #16126
-MOVT	R7, #427
-NOP
-NOP
+;SelfParkingCars.c,183 :: 		leftWheelStopped = 0;
+MOVS	R1, #0
+SXTH	R1, R1
+MOVW	R0, #lo_addr(_leftWheelStopped+0)
+MOVT	R0, #hi_addr(_leftWheelStopped+0)
+STRH	R1, [R0, #0]
+;SelfParkingCars.c,184 :: 		rightWheelStopped = 0;
+MOVS	R1, #0
+SXTH	R1, R1
+MOVW	R0, #lo_addr(_rightWheelStopped+0)
+MOVT	R0, #hi_addr(_rightWheelStopped+0)
+STRH	R1, [R0, #0]
+;SelfParkingCars.c,185 :: 		wheelInterruptCount[0]=60;
+MOVS	R1, #60
+SXTH	R1, R1
+MOVW	R0, #lo_addr(SelfParkingCars_wheelInterruptCount+0)
+MOVT	R0, #hi_addr(SelfParkingCars_wheelInterruptCount+0)
+STRH	R1, [R0, #0]
+;SelfParkingCars.c,186 :: 		wheelInterruptCount[1]=60;
+MOVS	R1, #60
+SXTH	R1, R1
+MOVW	R0, #lo_addr(SelfParkingCars_wheelInterruptCount+2)
+MOVT	R0, #hi_addr(SelfParkingCars_wheelInterruptCount+2)
+STRH	R1, [R0, #0]
+;SelfParkingCars.c,187 :: 		startCounting = 1;
+MOVS	R1, #1
+SXTH	R1, R1
+MOVW	R0, #lo_addr(_startCounting+0)
+MOVT	R0, #hi_addr(_startCounting+0)
+STRH	R1, [R0, #0]
+;SelfParkingCars.c,188 :: 		StartWheels();
+BL	_StartWheels+0
+;SelfParkingCars.c,189 :: 		while (leftWheelStopped == 0 || rightWheelStopped == 0);
+L_DriveWhileParkingNotSpotted32:
+MOVW	R0, #lo_addr(_leftWheelStopped+0)
+MOVT	R0, #hi_addr(_leftWheelStopped+0)
+LDRSH	R0, [R0, #0]
+CMP	R0, #0
+IT	EQ
+BEQ	L__DriveWhileParkingNotSpotted50
+MOVW	R0, #lo_addr(_rightWheelStopped+0)
+MOVT	R0, #hi_addr(_rightWheelStopped+0)
+LDRSH	R0, [R0, #0]
+CMP	R0, #0
+IT	EQ
+BEQ	L__DriveWhileParkingNotSpotted49
+IT	AL
+BAL	L_DriveWhileParkingNotSpotted33
+L__DriveWhileParkingNotSpotted50:
+L__DriveWhileParkingNotSpotted49:
+IT	AL
+BAL	L_DriveWhileParkingNotSpotted32
 L_DriveWhileParkingNotSpotted33:
-SUBS	R7, R7, #1
-BNE	L_DriveWhileParkingNotSpotted33
-NOP
-NOP
-NOP
-;SelfParkingCars.c,184 :: 		StopWheels();
+;SelfParkingCars.c,190 :: 		StopWheels();
 BL	_StopWheels+0
-;SelfParkingCars.c,185 :: 		}
+;SelfParkingCars.c,191 :: 		}
 L_end_DriveWhileParkingNotSpotted:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #8
 BX	LR
 ; end of _DriveWhileParkingNotSpotted
 _RotateFor90Right:
-;SelfParkingCars.c,187 :: 		void RotateFor90Right()
+;SelfParkingCars.c,193 :: 		void RotateFor90Right()
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;SelfParkingCars.c,189 :: 		leftWheelStopped = 0;
+;SelfParkingCars.c,195 :: 		leftWheelStopped = 0;
 MOVS	R1, #0
 SXTH	R1, R1
 MOVW	R0, #lo_addr(_leftWheelStopped+0)
 MOVT	R0, #hi_addr(_leftWheelStopped+0)
 STRH	R1, [R0, #0]
-;SelfParkingCars.c,190 :: 		rightWheelStopped = 0;
+;SelfParkingCars.c,196 :: 		rightWheelStopped = 0;
 MOVS	R1, #0
 SXTH	R1, R1
 MOVW	R0, #lo_addr(_rightWheelStopped+0)
 MOVT	R0, #hi_addr(_rightWheelStopped+0)
 STRH	R1, [R0, #0]
-;SelfParkingCars.c,191 :: 		SpinDirectionLeftWheel = BACKWARD_SPIN;
+;SelfParkingCars.c,197 :: 		SpinDirectionLeftWheel = BACKWARD_SPIN;
 MOVS	R1, #0
 SXTB	R1, R1
 MOVW	R0, #lo_addr(ODR6_GPIOA_ODR_bit+0)
 MOVT	R0, #hi_addr(ODR6_GPIOA_ODR_bit+0)
 STR	R1, [R0, #0]
-;SelfParkingCars.c,192 :: 		SpinDirectionRightWheel = FORWARD_SPIN;
+;SelfParkingCars.c,198 :: 		SpinDirectionRightWheel = FORWARD_SPIN;
 MOVS	R1, #1
 SXTB	R1, R1
 MOVW	R0, #lo_addr(ODR7_GPIOA_ODR_bit+0)
 MOVT	R0, #hi_addr(ODR7_GPIOA_ODR_bit+0)
 STR	R1, [R0, #0]
-;SelfParkingCars.c,193 :: 		wheelInterruptCount[0]=65;
-MOVS	R1, #65
+;SelfParkingCars.c,199 :: 		wheelInterruptCount[0]=52; // 63
+MOVS	R1, #52
 SXTH	R1, R1
 MOVW	R0, #lo_addr(SelfParkingCars_wheelInterruptCount+0)
 MOVT	R0, #hi_addr(SelfParkingCars_wheelInterruptCount+0)
 STRH	R1, [R0, #0]
-;SelfParkingCars.c,194 :: 		wheelInterruptCount[1]=65;
-MOVS	R1, #65
+;SelfParkingCars.c,200 :: 		wheelInterruptCount[1]=52; // 63
+MOVS	R1, #52
 SXTH	R1, R1
 MOVW	R0, #lo_addr(SelfParkingCars_wheelInterruptCount+2)
 MOVT	R0, #hi_addr(SelfParkingCars_wheelInterruptCount+2)
 STRH	R1, [R0, #0]
-;SelfParkingCars.c,195 :: 		startCounting = 1;
+;SelfParkingCars.c,201 :: 		startCounting = 1;
 MOVS	R1, #1
 SXTH	R1, R1
 MOVW	R0, #lo_addr(_startCounting+0)
 MOVT	R0, #hi_addr(_startCounting+0)
 STRH	R1, [R0, #0]
-;SelfParkingCars.c,196 :: 		StartWheels();
+;SelfParkingCars.c,202 :: 		StartWheels();
 BL	_StartWheels+0
-;SelfParkingCars.c,197 :: 		while (leftWheelStopped == 0 || rightWheelStopped == 0);
-L_RotateFor90Right35:
+;SelfParkingCars.c,203 :: 		while (leftWheelStopped == 0 || rightWheelStopped == 0);
+L_RotateFor90Right36:
 MOVW	R0, #lo_addr(_leftWheelStopped+0)
 MOVT	R0, #hi_addr(_leftWheelStopped+0)
 LDRSH	R0, [R0, #0]
 CMP	R0, #0
 IT	EQ
-BEQ	L__RotateFor90Right49
+BEQ	L__RotateFor90Right53
 MOVW	R0, #lo_addr(_rightWheelStopped+0)
 MOVT	R0, #hi_addr(_rightWheelStopped+0)
 LDRSH	R0, [R0, #0]
 CMP	R0, #0
 IT	EQ
-BEQ	L__RotateFor90Right48
+BEQ	L__RotateFor90Right52
+IT	AL
+BAL	L_RotateFor90Right37
+L__RotateFor90Right53:
+L__RotateFor90Right52:
 IT	AL
 BAL	L_RotateFor90Right36
-L__RotateFor90Right49:
-L__RotateFor90Right48:
-IT	AL
-BAL	L_RotateFor90Right35
-L_RotateFor90Right36:
-;SelfParkingCars.c,198 :: 		}
+L_RotateFor90Right37:
+;SelfParkingCars.c,204 :: 		}
 L_end_RotateFor90Right:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
 ; end of _RotateFor90Right
 _DriveUntillWall:
-;SelfParkingCars.c,200 :: 		void DriveUntillWall()
+;SelfParkingCars.c,208 :: 		void DriveUntillWall()
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;SelfParkingCars.c,202 :: 		Delay_ms(100);
+;SelfParkingCars.c,210 :: 		Delay_ms(100);
 MOVW	R7, #2302
 MOVT	R7, #61
 NOP
 NOP
-L_DriveUntillWall39:
+L_DriveUntillWall40:
 SUBS	R7, R7, #1
-BNE	L_DriveUntillWall39
+BNE	L_DriveUntillWall40
 NOP
 NOP
 NOP
-;SelfParkingCars.c,203 :: 		SpinDirectionLeftWheel = FORWARD_SPIN;
+;SelfParkingCars.c,211 :: 		SpinDirectionLeftWheel = FORWARD_SPIN;
 MOVS	R1, #1
 SXTB	R1, R1
 MOVW	R0, #lo_addr(ODR6_GPIOA_ODR_bit+0)
 MOVT	R0, #hi_addr(ODR6_GPIOA_ODR_bit+0)
 STR	R1, [R0, #0]
-;SelfParkingCars.c,204 :: 		SpinDirectionRightWheel = FORWARD_SPIN;
+;SelfParkingCars.c,212 :: 		SpinDirectionRightWheel = FORWARD_SPIN;
 MOVW	R0, #lo_addr(ODR7_GPIOA_ODR_bit+0)
 MOVT	R0, #hi_addr(ODR7_GPIOA_ODR_bit+0)
 STR	R1, [R0, #0]
-;SelfParkingCars.c,205 :: 		startCounting = 0;
+;SelfParkingCars.c,213 :: 		startCounting = 0;
 MOVS	R1, #0
 SXTH	R1, R1
 MOVW	R0, #lo_addr(_startCounting+0)
 MOVT	R0, #hi_addr(_startCounting+0)
 STRH	R1, [R0, #0]
-;SelfParkingCars.c,206 :: 		TriggerFrontSensorMeasurement();
+;SelfParkingCars.c,214 :: 		TriggerFrontSensorMeasurement();
 BL	_TriggerFrontSensorMeasurement+0
-;SelfParkingCars.c,207 :: 		StartWheels();
+;SelfParkingCars.c,215 :: 		StartWheels();
 BL	_StartWheels+0
-;SelfParkingCars.c,210 :: 		while (GetFrontSensorDistance() > 4.0)
-L_DriveUntillWall41:
+;SelfParkingCars.c,218 :: 		while (GetFrontSensorDistance() > 8)
+L_DriveUntillWall42:
 BL	_GetFrontSensorDistance+0
-VMOV.F32	S1, #4
+VMOV.F32	S1, #8
 VCMPE.F32	S0, S1
 VMRS	#60, FPSCR
 IT	LE
-BLE	L_DriveUntillWall42
-;SelfParkingCars.c,212 :: 		TriggerFrontSensorMeasurement();
+BLE	L_DriveUntillWall43
+;SelfParkingCars.c,220 :: 		TriggerFrontSensorMeasurement();
 BL	_TriggerFrontSensorMeasurement+0
-;SelfParkingCars.c,213 :: 		}
+;SelfParkingCars.c,221 :: 		}
 IT	AL
-BAL	L_DriveUntillWall41
-L_DriveUntillWall42:
-;SelfParkingCars.c,215 :: 		StopWheels();
+BAL	L_DriveUntillWall42
+L_DriveUntillWall43:
+;SelfParkingCars.c,223 :: 		StopWheels();
 BL	_StopWheels+0
-;SelfParkingCars.c,216 :: 		}
+;SelfParkingCars.c,224 :: 		}
 L_end_DriveUntillWall:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
 ; end of _DriveUntillWall
 _InitializeWheels:
-;SelfParkingCars.c,218 :: 		void InitializeWheels()
+;SelfParkingCars.c,226 :: 		void InitializeWheels()
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;SelfParkingCars.c,220 :: 		InitLeftWheelPWM_Timer4_CH1_PB6();
+;SelfParkingCars.c,228 :: 		InitLeftWheelPWM_Timer4_CH1_PB6();
 BL	_InitLeftWheelPWM_Timer4_CH1_PB6+0
-;SelfParkingCars.c,221 :: 		InitRightWheelPWM_Timer9_CH1_PE5();
+;SelfParkingCars.c,229 :: 		InitRightWheelPWM_Timer9_CH1_PE5();
 BL	_InitRightWheelPWM_Timer9_CH1_PE5+0
-;SelfParkingCars.c,222 :: 		InitExternIntRisingEdge_PC1_PC2();
+;SelfParkingCars.c,230 :: 		InitExternIntRisingEdge_PC1_PC2();
 BL	_InitExternIntRisingEdge_PC1_PC2+0
-;SelfParkingCars.c,223 :: 		}
+;SelfParkingCars.c,231 :: 		}
 L_end_InitializeWheels:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
 ; end of _InitializeWheels
 _main:
-;SelfParkingCars.c,225 :: 		void main() {
+;SelfParkingCars.c,233 :: 		void main() {
 SUB	SP, SP, #4
-;SelfParkingCars.c,229 :: 		InitializeSensors();
+;SelfParkingCars.c,237 :: 		InitializeSensors();
 BL	_InitializeSensors+0
-;SelfParkingCars.c,230 :: 		AlignRightSensors();
+;SelfParkingCars.c,238 :: 		AlignRightSensors();
 BL	_AlignRightSensors+0
-;SelfParkingCars.c,231 :: 		Delay_ms(3000);
-MOVW	R7, #3582
-MOVT	R7, #1831
+;SelfParkingCars.c,239 :: 		Delay_ms(4000);
+MOVW	R7, #26622
+MOVT	R7, #2441
 NOP
 NOP
-L_main43:
+L_main44:
 SUBS	R7, R7, #1
-BNE	L_main43
+BNE	L_main44
 NOP
 NOP
 NOP
-;SelfParkingCars.c,232 :: 		InitializeWheels();
+;SelfParkingCars.c,240 :: 		InitializeWheels();
 BL	_InitializeWheels+0
-;SelfParkingCars.c,233 :: 		DriveWhileParkingNotSpotted();
+;SelfParkingCars.c,241 :: 		DriveWhileParkingNotSpotted();
 BL	_DriveWhileParkingNotSpotted+0
-;SelfParkingCars.c,234 :: 		RotateFor90Right();
+;SelfParkingCars.c,242 :: 		RotateFor90Right();
 BL	_RotateFor90Right+0
-;SelfParkingCars.c,235 :: 		RotateFrontSensorFront();
+;SelfParkingCars.c,243 :: 		RotateFrontSensorFront();
 BL	_RotateFrontSensorFront+0
-;SelfParkingCars.c,236 :: 		DriveUntillWall();
+;SelfParkingCars.c,244 :: 		DriveUntillWall();
 BL	_DriveUntillWall+0
-;SelfParkingCars.c,237 :: 		RotateFor90Right();
+;SelfParkingCars.c,245 :: 		RotateFor90Right();
 BL	_RotateFor90Right+0
-;SelfParkingCars.c,239 :: 		while(1);
-L_main45:
+;SelfParkingCars.c,247 :: 		while(1);
+L_main46:
 IT	AL
-BAL	L_main45
-;SelfParkingCars.c,253 :: 		}
+BAL	L_main46
+;SelfParkingCars.c,261 :: 		}
 L_end_main:
 L__main_end_loop:
 B	L__main_end_loop

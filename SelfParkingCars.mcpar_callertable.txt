@@ -97,6 +97,15 @@ main
 		TriggerBackSensorMeasurement
 		GetFrontSensorDistance
 		GetBackSensorDistance
+		StartWheels
+			PWM_TIM4_Set_Duty_Wrapper
+			PWM_TIM9_Set_Duty_Wrapper
+			PWM_TIM10_Set_Duty_Wrapper
+			PWM_TIM11_Set_Duty_Wrapper
+			PWM_TIM4_Set_Duty_Wrapper
+			PWM_TIM9_Set_Duty_Wrapper
+			PWM_TIM10_Set_Duty_Wrapper
+			PWM_TIM11_Set_Duty_Wrapper
 		StopWheels
 			PWM_TIM4_Set_Duty_Wrapper
 			PWM_TIM9_Set_Duty_Wrapper
@@ -108,14 +117,6 @@ main
 			PWM_TIM11_Set_Duty_Wrapper
 	RotateFor90Right
 		StartWheels
-			PWM_TIM4_Set_Duty_Wrapper
-			PWM_TIM9_Set_Duty_Wrapper
-			PWM_TIM10_Set_Duty_Wrapper
-			PWM_TIM11_Set_Duty_Wrapper
-			PWM_TIM4_Set_Duty_Wrapper
-			PWM_TIM9_Set_Duty_Wrapper
-			PWM_TIM10_Set_Duty_Wrapper
-			PWM_TIM11_Set_Duty_Wrapper
 	RotateFrontSensorFront
 		PWM_TIM4_Set_Duty_Wrapper
 		PWM_TIM9_Set_Duty_Wrapper
