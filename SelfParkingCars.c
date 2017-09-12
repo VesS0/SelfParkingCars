@@ -1,6 +1,11 @@
 #include "SelfParkingCars.h"
 #include "Sensors.h"
 
+// page for controller controller http://www.st.com/en/microcontrollers/stm32f407vg.html
+ // smaller data sheet http://www.st.com/content/ccc/resource/technical/document/datasheet/ef/92/76/6d/bb/c2/4f/f7/DM00037051.pdf/files/DM00037051.pdf/jcr:content/translations/en.DM00037051.pdf
+ // reference manual http://www.st.com/content/ccc/resource/technical/document/reference_manual/3d/6d/5a/66/b4/99/40/d4/DM00031020.pdf/files/DM00031020.pdf/jcr:content/translations/en.DM00031020.pdf
+ // https://download.mikroe.com/documents/starter-boards/clicker-2/stm32f4/clicker2-stm32-manual-v100.pdf str 6, 46, 47
+ 
 sbit SpinDirectionLeftWheel at ODR6_GPIOA_ODR_bit;
 sbit SpinDirectionRightWheel at ODR7_GPIOA_ODR_bit;
 volatile int startCounting = 0;
@@ -52,14 +57,15 @@ void LeftWheel_Interrupt() iv IVT_INT_EXTI1 ics ICS_AUTO
 
 // Wheels
 // Decoder: CD4555B
-// Decoder uses Inverted input for enable
-
+// Decoder uses Inverted input for enable   
+// demultiplexer http://www.ti.com/lit/ds/symlink/cd4556b.pdf
+ // H bridge https://www.sparkfun.com/datasheets/Robotics/L298_H_Bridge.pdf 25-40 Khz
 void InitLeftWheelPWM_Timer4_CH1_PB6()
 {
      GPIO_Digital_Output(&GPIOA_BASE, _GPIO_PINMASK_6);
      SpinDirectionLeftWheel = FORWARD_SPIN;    // Default forward spin
 
-     pwmPeriod[LEFT_WHEEL] =  PWM_TIM4_Init(50000) ; // Work on frequency 20-35 Khz
+     pwmPeriod[LEFT_WHEEL] =  PWM_TIM4_Init(50000) ; // Work on frequency 20-40 Khz
      pwmDuty[LEFT_WHEEL] = pwmPeriod[LEFT_WHEEL]- 650; //-700; // -750;// - 1000 ;
      ChangeDuty[LEFT_WHEEL](pwmDuty[LEFT_WHEEL]);
      PWM_TIM4_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM4_CH1_PB6);

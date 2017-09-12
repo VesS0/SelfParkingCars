@@ -32,7 +32,7 @@ void TriggerBackSensorMeasurement()
 //           90 degree    2ms    right
 //           0 degrees    1.5ms  middle
 //          -90 degrees   1ms    left
-
+// for servos http://akizukidenshi.com/download/ds/towerpro/SG90.pdf
 void InitBackServoPWM_Timer10_CH1_PB8()
 {
      pwmPeriod[BACK_SENSOR] =  PWM_TIM10_Init(INITIAL_SENSOR_FREQUENCY);
@@ -61,7 +61,7 @@ void Timer()
 {
   RCC_APB1ENR.TIM2EN = 1;
   TIM2_CR1.CEN = 0;
-  TIM2_PSC = 5; // Prescaller     (120 Mhz / prescaller+1 represents frequency of Timer calls)
+  TIM2_PSC = 5; // Prescaller+1    (120 Mhz / prescaller+1 represents frequency of Timer calls)
   TIM2_ARR = 65535;
 }
 // Initializes sensors and servo motors that are used to rotate sensors
@@ -123,10 +123,7 @@ void FrontSensorEcho() iv IVT_INT_EXTI4 ics ICS_AUTO {
          ODR15_GPIOE_ODR_bit = 0;
       }
       rez2 = GetResultsInCM(merenje);
-       /*sprintf(buf,"%lf",rez);
-       UART3_Write_Text(buf);
-       UART3_Write(13);
-       UART3_Write(10); */
+
 
   }
 }
@@ -145,9 +142,6 @@ void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
       merenjee = TIM2_CNT;
       TIM2_CNT = 0;
       rez = GetResultsInCM(merenjee);
-       /*sprintf(buf,"Prednji: %3.4lf Zadnji: %3.4lf",rez, rez2);
-       UART3_Write_Text(buf);
-       UART3_Write(13);
-       UART3_Write(10); */
+
   }
 }
