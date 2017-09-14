@@ -275,7 +275,7 @@ SXTB	R1, R1
 MOVW	R0, #lo_addr(TIM2_CR1+0)
 MOVT	R0, #hi_addr(TIM2_CR1+0)
 STR	R1, [R0, #0]
-;Sensors.c,64 :: 		TIM2_PSC = 5; // Prescaller     (120 Mhz / prescaller+1 represents frequency of Timer calls)
+;Sensors.c,64 :: 		TIM2_PSC = 5; // Prescaller+1    (120 Mhz / prescaller+1 represents frequency of Timer calls)
 MOVS	R1, #5
 MOVW	R0, #lo_addr(TIM2_PSC+0)
 MOVT	R0, #hi_addr(TIM2_PSC+0)
@@ -497,80 +497,80 @@ BL	_GetResultsInCM+0
 MOVW	R0, #lo_addr(_rez2+0)
 MOVT	R0, #hi_addr(_rez2+0)
 VSTR	#1, S0, [R0, #0]
-;Sensors.c,131 :: 		}
+;Sensors.c,128 :: 		}
 L_FrontSensorEcho9:
-;Sensors.c,132 :: 		}
+;Sensors.c,129 :: 		}
 L_end_FrontSensorEcho:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
 ; end of _FrontSensorEcho
 _BackSensorEcho:
-;Sensors.c,134 :: 		void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
+;Sensors.c,131 :: 		void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;Sensors.c,135 :: 		EXTI_PR.B3 = 1;                     // clear flag
+;Sensors.c,132 :: 		EXTI_PR.B3 = 1;                     // clear flag
 MOVS	R1, #1
 SXTB	R1, R1
 MOVW	R0, #lo_addr(EXTI_PR+0)
 MOVT	R0, #hi_addr(EXTI_PR+0)
 STR	R1, [R0, #0]
-;Sensors.c,136 :: 		ODR15_GPIOE_ODR_bit = 0;
+;Sensors.c,133 :: 		ODR15_GPIOE_ODR_bit = 0;
 MOVS	R1, #0
 SXTB	R1, R1
 MOVW	R0, #lo_addr(ODR15_GPIOE_ODR_bit+0)
 MOVT	R0, #hi_addr(ODR15_GPIOE_ODR_bit+0)
 STR	R1, [R0, #0]
-;Sensors.c,137 :: 		if(IDR3_GPIOC_IDR_bit == 1)
+;Sensors.c,134 :: 		if(IDR3_GPIOC_IDR_bit == 1)
 MOVW	R1, #lo_addr(IDR3_GPIOC_IDR_bit+0)
 MOVT	R1, #hi_addr(IDR3_GPIOC_IDR_bit+0)
 LDR	R0, [R1, #0]
 CMP	R0, #0
 IT	EQ
 BEQ	L_BackSensorEcho11
-;Sensors.c,139 :: 		TIM2_CR1.CEN = 1;
+;Sensors.c,136 :: 		TIM2_CR1.CEN = 1;
 MOVS	R1, #1
 SXTB	R1, R1
 MOVW	R0, #lo_addr(TIM2_CR1+0)
 MOVT	R0, #hi_addr(TIM2_CR1+0)
 STR	R1, [R0, #0]
-;Sensors.c,140 :: 		};
+;Sensors.c,137 :: 		};
 L_BackSensorEcho11:
-;Sensors.c,142 :: 		if(IDR3_GPIOC_IDR_bit == 0)
+;Sensors.c,139 :: 		if(IDR3_GPIOC_IDR_bit == 0)
 MOVW	R1, #lo_addr(IDR3_GPIOC_IDR_bit+0)
 MOVT	R1, #hi_addr(IDR3_GPIOC_IDR_bit+0)
 LDR	R0, [R1, #0]
 CMP	R0, #0
 IT	NE
 BNE	L_BackSensorEcho12
-;Sensors.c,144 :: 		TIM2_CR1.CEN = 0;
+;Sensors.c,141 :: 		TIM2_CR1.CEN = 0;
 MOVS	R1, #0
 SXTB	R1, R1
 MOVW	R0, #lo_addr(TIM2_CR1+0)
 MOVT	R0, #hi_addr(TIM2_CR1+0)
 STR	R1, [R0, #0]
-;Sensors.c,145 :: 		merenjee = TIM2_CNT;
+;Sensors.c,142 :: 		merenjee = TIM2_CNT;
 MOVW	R0, #lo_addr(TIM2_CNT+0)
 MOVT	R0, #hi_addr(TIM2_CNT+0)
 LDR	R0, [R0, #0]
 MOVW	R2, #lo_addr(_merenjee+0)
 MOVT	R2, #hi_addr(_merenjee+0)
 STR	R0, [R2, #0]
-;Sensors.c,146 :: 		TIM2_CNT = 0;
+;Sensors.c,143 :: 		TIM2_CNT = 0;
 MOVS	R1, #0
 MOVW	R0, #lo_addr(TIM2_CNT+0)
 MOVT	R0, #hi_addr(TIM2_CNT+0)
 STR	R1, [R0, #0]
-;Sensors.c,147 :: 		rez = GetResultsInCM(merenjee);
+;Sensors.c,144 :: 		rez = GetResultsInCM(merenjee);
 MOV	R0, R2
 LDR	R0, [R0, #0]
 BL	_GetResultsInCM+0
 MOVW	R0, #lo_addr(_rez+0)
 MOVT	R0, #hi_addr(_rez+0)
 VSTR	#1, S0, [R0, #0]
-;Sensors.c,152 :: 		}
+;Sensors.c,146 :: 		}
 L_BackSensorEcho12:
-;Sensors.c,153 :: 		}
+;Sensors.c,147 :: 		}
 L_end_BackSensorEcho:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4

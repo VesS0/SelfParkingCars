@@ -171,7 +171,8 @@ void FrontSensorEcho() iv IVT_INT_EXTI4 ics ICS_AUTO {
  ODR15_GPIOE_ODR_bit = 0;
  }
  rez2 = GetResultsInCM(merenje);
-#line 131 "C:/Users/Jelena/Desktop/SelfParkingCars/Sensors.c"
+
+
  }
 }
 
@@ -189,6 +190,6 @@ void BackSensorEcho() iv IVT_INT_EXTI3 ics ICS_AUTO {
  merenjee = TIM2_CNT;
  TIM2_CNT = 0;
  rez = GetResultsInCM(merenjee);
-#line 152 "C:/Users/Jelena/Desktop/SelfParkingCars/Sensors.c"
+
  }
 }

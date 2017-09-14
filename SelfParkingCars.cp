@@ -48,7 +48,7 @@ static DutyChangeFunctionPtr ChangeDuty[4] = { &PWM_TIM4_Set_Duty_Wrapper, &PWM_
  void TriggerBackSensorMeasurement();
  double GetFrontSensorDistance();
  double GetBackSensorDistance();
-#line 4 "C:/Users/Jelena/Desktop/SelfParkingCars/SelfParkingCars.c"
+#line 9 "C:/Users/Jelena/Desktop/SelfParkingCars/SelfParkingCars.c"
 sbit SpinDirectionLeftWheel at ODR6_GPIOA_ODR_bit;
 sbit SpinDirectionRightWheel at ODR7_GPIOA_ODR_bit;
 volatile int startCounting = 0;
@@ -97,6 +97,7 @@ void LeftWheel_Interrupt() iv IVT_INT_EXTI1 ics ICS_AUTO
  leftWheelStopped = 1;
  }
 }
+
 
 
 
@@ -293,5 +294,5 @@ void main() {
  RotateFor90Right();
 
  while(1);
-#line 261 "C:/Users/Jelena/Desktop/SelfParkingCars/SelfParkingCars.c"
+#line 267 "C:/Users/Jelena/Desktop/SelfParkingCars/SelfParkingCars.c"
 }
